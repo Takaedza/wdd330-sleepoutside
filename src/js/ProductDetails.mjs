@@ -1,0 +1,48 @@
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+
+export default class ProductDetails {
+  constructor(productId, dataSource){
+    this.productId = productId;
+    this.product = {};
+    this.dataSource = dataSource;
+  }
+
+  async init() {
+    // use the datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
+    this.product = await this.dataSource.findProductById(this.productId);
+    // the product details are needed before rendering the HTML
+    // once the HTML is rendered, add a listener to the Add to Cart button
+    this.renderProductDetails();
+    // Notice the .bind(this). This callback will not work if the bind(this) is missing. Review the readings from this week on 'this' to understand why.
+    
+    document
+        .getElementById('addToCart')
+        .addEventListener('click', this.addToCart.bind(this));
+  }
+
+  addProductToCart(){
+    const cart = getLocalStorage("so-cart") || [];
+    cart.push(this.product);
+    setLocalStorage("so-cart", cart);
+  }
+
+  renderProductDetails(){
+    productDetailTemplate(this.product);
+  }
+
+}
+
+function productDetailTemplate(product) {
+    document.querySelector("h2").textContent = product.Brand.Name;
+    document.querySelector("h3").textContent = product.NameWithoutBrand;
+
+    const productImage = document.getElementById("productImage");
+    productImage.src = product.Image;
+    productImage.alt = product.NameWithoutBrand;
+
+    document.getElementById("productPrice").textContent = product.FinalPrice;
+    document.getElementById("productColor").textContent = product.Colors[0].ColorName;
+    document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
+
+    document.getElementById("addToCart").dataset.id = product.Id;
+  }
