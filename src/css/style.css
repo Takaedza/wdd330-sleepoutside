@@ -261,3 +261,17 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/*This code is to design the icon quantity items of the icon backpack*/
+
+#numberItems {
+  position: absolute;
+  background-color: forestgreen;
+  color: white;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 100rem;
+  top: 6px;
+  right: -9px;
+  border-color: none;
+}
