@@ -51,13 +51,21 @@ export async function loadTemplate(path){
   return template;
 }
 
+
 export async function loadHeaderFooter(){
-  const headerTemplate = await loadTemplate("/partials/header.html");
+  const headerTemplate = await loadTemplate("/partials/header.html"); //src\public\partials\footer.html
   const headerElement = document.querySelector("#main-header");
+
+  
 
   const footerTemplate = await loadTemplate("/partials/footer.html");
   const footerElement = document.querySelector("#main-footer");
 
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
+
+ 
+  const superScript = document.querySelector("#numberItems");
+  length = getLocalStorage("so-cart").length;
+  superScript.innerHTML = length;
 }
