@@ -16,8 +16,8 @@ export default class ProductDetails {
     // Notice the .bind(this). This callback will not work if the bind(this) is missing. Review the readings from this week on 'this' to understand why.
     
     document
-        .getElementById('addToCart')
-        .addEventListener('click', this.addToCart.bind(this));
+      .getElementById('addToCart')
+      .addEventListener('click', this.addToCart.bind(this));
   }
 
   addProductToCart(){
@@ -33,14 +33,14 @@ export default class ProductDetails {
 }
 
 function productDetailTemplate(product) {
-    document.querySelector("h2").textContent = product.Brand.Name;
-    document.querySelector("h3").textContent = product.NameWithoutBrand;
+    document.querySelector("h3").textContent = product.Brand.Name;
+    document.querySelector("h2").textContent = product.NameWithoutBrand;
 
     const productImage = document.getElementById("productImage");
     productImage.src = product.Image;
     productImage.alt = product.NameWithoutBrand;
 
-    document.getElementById("productPrice").textContent = product.FinalPrice;
+    document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
     document.getElementById("productColor").textContent = product.Colors[0].ColorName;
     document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
 
