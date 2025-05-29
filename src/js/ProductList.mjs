@@ -9,12 +9,12 @@ function productCardTemplate(product){
     return`<li class="product-card">
         <a href="product_pages/?product=${product.Id}">
             <img
-                src="${product.Image}"
-                alt="Image of ${product.NameWithoutBrand}"
-            />
-            ${hasDiscount ? `<p class="product-card__discount">-${discount}%</p>` : ""}
+                src="${product.Images.PrimaryMedium}"
+                alt="Image of ${product.Name}"
+            >
+            <h2>${hasDiscount ? `<p class="product-card__discount">-${discount}%</p>` : ""}</h2>
             <h3 class="card__brand">${product.Brand.Name}</h3>
-            <h2 class="card__name">${product.NameWithoutBrand}</h2>
+            <p class="card__name">${product.NameWithoutBrand}</p>
             ${hasDiscount ? `<p class="product-card__retail">$${product.SuggestedRetailPrice.toFixed(2)}</p>` : ""}
             <p class="product-card__price">$${product.FinalPrice}</p>
         </a>
@@ -30,12 +30,13 @@ export default class ProductList {
     }
 
     async init() {
-    const list = await this.dataSource.getData();
-    this.renderList(list);
+        const list = await this.dataSource.getData(this.category);
+        this.renderList(list);
+        document.querySelector(".title").textContent = this.category
     }
 
     renderList(list){
-        const filteredList = list.filter(product => product.FinalPrice !== 179.99); //to show only the 4 products that have product pages.
-        renderListWithTemplate(productCardTemplate, this.listElement, filteredList);
+        // const filteredList = list.filter(product => product.FinalPrice !== 179.99); //to show only the 4 products that have product pages.
+        renderListWithTemplate(productCardTemplate, this.listElement, list);
     }
 }

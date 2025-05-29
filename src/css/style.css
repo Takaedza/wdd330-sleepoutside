@@ -192,18 +192,18 @@ button {
   font-size: 1em;
 }
 
-.product-card__price{
+.product-card__price {
   font-weight: 600;
   padding: 0 0 0 1rem;
 }
 
-.product-card__retail{
+.product-card__retail {
   font-size: var(--small-font);
   text-decoration: line-through;
   padding: 0 0 0 1rem;
 }
 
-.product-card__discount{
+.product-card__discount {
   font-weight: 600;
   background-color: var(--primary-color);
   border-radius: 100%;

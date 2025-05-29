@@ -25,8 +25,8 @@ export function setClick(selector, callback) {
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const productId = urlParams.get(param);
-  return productId;
+  const product = urlParams.get(param);
+  return product;
 }
 
 export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
@@ -39,13 +39,13 @@ export function renderListWithTemplate(template, parentElement, list, position =
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
-  parentElement.insertAdjacentHTML("afterbegin", template);
+  parentElement.innerHTML = template;
   if(callback) {
     callback(data);
   }
 }
 
-export async function loadTemplate(path){
+async function loadTemplate(path){
   const res = await fetch(path);
   const template = await res.text();
   return template;
