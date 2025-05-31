@@ -12,3 +12,6 @@ import Alert from "./alert";
 loadHeaderFooter();
 
 new Alert();
+
+
+new Alert();
