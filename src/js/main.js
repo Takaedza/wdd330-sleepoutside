@@ -1,4 +1,5 @@
-
+//import ProductData from "./ProductData.mjs";
+//import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
 import Alert from "./alert";
 
@@ -9,5 +10,8 @@ import Alert from "./alert";
 //productList.init();
 
 loadHeaderFooter();
+
+new Alert();
+
 
 new Alert();

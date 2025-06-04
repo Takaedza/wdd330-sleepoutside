@@ -7,9 +7,9 @@ function productCardTemplate(product){
         : null;
 
     return`<li class="product-card">
-        <a href="/product_pages/?product=${product.Id}">
+        <a href="product_pages/?product=${product.Id}">
             <img
-                src="${product.Images.PrimaryMedium}"
+                src="${product.Image}"
                 alt="Image of ${product.NameWithoutBrand}"
             />
             ${hasDiscount ? `<p class="product-card__discount">-${discount}%</p>` : ""}
@@ -30,12 +30,12 @@ export default class ProductList {
     }
 
     async init() {
-    const list = await this.dataSource.getData(this.category);
+    const list = await this.dataSource.getData();
     this.renderList(list);
     }
 
     renderList(list){
-        // const filteredList = list.filter(product => product.FinalPrice !== 179.99); //to show only the 4 products that have product pages.
-        renderListWithTemplate(productCardTemplate, this.listElement, list);
+        const filteredList = list.filter(product => product.FinalPrice !== 179.99); //to show only the 4 products that have product pages.
+        renderListWithTemplate(productCardTemplate, this.listElement, filteredList);
     }
 }
