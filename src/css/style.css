@@ -151,6 +151,12 @@ button {
   text-align: center;
 }
 
+.categories{
+  display: flex;
+  justify-content: space-around;
+  padding-top: 2rem;
+}
+
 .products {
   margin-top: 2rem;
   padding: 1rem;

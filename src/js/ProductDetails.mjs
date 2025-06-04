@@ -17,7 +17,7 @@ export default class ProductDetails {
     
     document
       .getElementById('addToCart')
-      .addEventListener('click', this.addToCart.bind(this));
+      .addEventListener('click', this.addProductToCart.bind(this));
   }
 
   addProductToCart(){
@@ -37,7 +37,7 @@ function productDetailTemplate(product) {
     document.querySelector("h2").textContent = product.NameWithoutBrand;
 
     const productImage = document.getElementById("productImage");
-    productImage.src = product.Image;
+    productImage.src = product.Images.PrimaryLarge;
     productImage.alt = product.NameWithoutBrand;
 
     document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
