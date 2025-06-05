@@ -1,4 +1,4 @@
-const baseurl = import.meta.env.Vite_SERVER_URL;
+const baseURL = import.meta.env.VITE_SERVER_URL
 
 function convertToJson(res) {
   if (res.ok) {
@@ -9,21 +9,18 @@ function convertToJson(res) {
 }
 
 export default class ProductData {
-  constructor() {
-    // this.category = category;
-    // this.path = `/json/${this.category}.json`;
-  }
+  constructor() {}
+
   async getData(category) {
-    const response = await fetch(`${baseurl}products/search/${category}`);
+    const response = await fetch(`${baseURL}products/search/${category}`);
     const data = await convertToJson(response);
-    
+    // console.log(data.Result);
     return data.Result;
   }
   async findProductById(id) {
-    const response = await fetch(`${baseurl}products/${id}`);
+    const response = await fetch(`${baseURL}product/${id}`);
     const data = await convertToJson(response);
-    console.log(data.Result);
-
+    // console.log(data.Result);
     return data.Result;
   }
 }
