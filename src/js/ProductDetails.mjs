@@ -33,7 +33,7 @@ export default class ProductDetails {
     // Get current cart or initialize as empty array
     let cart = getLocalStorage('so-cart') || [];
     
-    // If cart is not an array (could be a single item), convert it to an array
+    // If cart is not an array, convert it to an array
     if (!Array.isArray(cart)) {
       cart = [cart];
     }
