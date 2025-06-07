@@ -15,13 +15,13 @@ export default class ProductDetails {
 
     document
       .getElementById("addToCart")
-      .addEventListener("click", this.addToCart.bind(this));
+      .addEventListener("click", this.addProductToCart.bind(this));
   }
 
-  addProductToCart() {
-    const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
-    setLocalStorage("so-cart", cart);
+  addProductToCart(){
+    const cartItems = getLocalStorage("so-cart") || [];
+    cartItems.push(this.product);
+    setLocalStorage("so-cart", cartItems);
   }
 
   renderProductDetails() {
@@ -30,34 +30,40 @@ export default class ProductDetails {
 }
 
 function productDetailTemplate(product) {
-    document.querySelector("h3").textContent = product.Brand.Name;
-    document.querySelector("h2").textContent = product.NameWithoutBrand;
+  document.getElementById("category").textContent = product.Category.charAt(0).toUpperCase() + product.Category.slice(1);
 
-    const productImage = document.getElementById("productImage");
-    productImage.src = product.Image;
-    productImage.alt = product.NameWithoutBrand;
+  document.getElementById("productBrand").textContent = product.Brand.Name;
+  document.getElementById("productName").textContent = product.NameWithoutBrand;
 
-    document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
-    document.getElementById("productColor").textContent = product.Colors[0].ColorName;
-    document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
+  const productImage = document.getElementById("productImage");
+  productImage.src = product.Images.PrimaryLarge;
+  productImage.alt = product.NameWithoutBrand;
 
-    document.getElementById("addToCart").dataset.id = product.Id;
+  const euroPrice = new Intl.NumberFormat("de-DE", {
+    style: "currency", currency: "EUR",
+  }).format(Number(product.FinalPrice) * 0.85);
 
-    // Calculate discount
-    const hasDiscount = product.FinalPrice < product.SuggestedRetailPrice;
-    const discount = hasDiscount
-        ? (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2)
-        : null;
+  document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
+  document.getElementById("productColor").textContent = product.Colors[0].ColorName;
+  document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
+  
+  document.getElementById("addToCart").dataset.id = product.Id;
 
-    // Add discount information if applicable
-    if (hasDiscount) {
-        const discountText = `$${discount} OFF`;
-        const discountElement = document.createElement("p");
-        discountElement.className = "product-card__discount rposition";
-        discountElement.textContent = discountText;
+  // Calculate discount
+  const hasDiscount = product.FinalPrice < product.SuggestedRetailPrice;
+  const discount = hasDiscount
+    ? (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2)
+    : null;
 
-        // Append the discount element to the product detail section
-        const productDetailSection = document.querySelector(".product-detail");
-        productDetailSection.appendChild(discountElement);
-    }
+  // Add discount information if applicable
+  if (hasDiscount) {
+    const discountText = `$${discount} OFF`;
+    const discountElement = document.createElement("p");
+    discountElement.className = "product-card__discount rposition";
+    discountElement.textContent = discountText;
+
+  // Append the discount element to the product detail section
+    const productDetailSection = document.querySelector(".product-detail");
+    productDetailSection.appendChild(discountElement);
+  }
 }
