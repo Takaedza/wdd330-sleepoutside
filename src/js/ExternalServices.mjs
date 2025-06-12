@@ -8,7 +8,7 @@ function convertToJson(res) {
   }
 }
 
-export default class ProductData {
+export default class ExternalServices{
   constructor() {}
 
   async getData(category) {
@@ -17,10 +17,25 @@ export default class ProductData {
     // console.log(data.Result);
     return data.Result;
   }
+
   async findProductById(id) {
     const response = await fetch(`${baseURL}product/${id}`);
     const data = await convertToJson(response);
     // console.log(data.Result);
     return data.Result;
+  }
+
+  async checkout(order) {
+    const url = `https://wdd330-backend.onrender.com/checkout`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    };
+
+    const response = await fetch(url, options);
+    return await convertToJson(response);
   }
 }

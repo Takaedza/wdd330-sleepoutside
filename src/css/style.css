@@ -283,12 +283,96 @@ button {
   cursor: pointer;
 }
 
+.cart-total, .list-footer{
+  text-align: right;
+  padding: 1rem 25% 0 0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.hide{
+  display: none;
+}
+
 .rposition {
   margin-top: 12rem;
   margin-right: 20rem;
   background-color: green;
   width: 4rem;
   height: 4rem;
+}
+
+
+/* checkout */
+.checkout-layout{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto 1rem auto;
+  padding: 1rem;
+  font-family: sans-serif;
+  border: 2px solid var(--dark-grey);
+  border-radius: 10px;
+  background-color: rgb(235, 235, 235);
+  grid-row: 1 / 5;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #000;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: var(--dark-grey);
+  cursor: pointer;
+}
+
+.order-summary{
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  grid-row: 3 / 4;
+  padding: 1rem;
+  background-color: #ffebda;
 }
 
 /* nav */
@@ -329,7 +413,6 @@ button {
   background: var(--primary-color);
   color: #fff;
 }
-
 
 
 @media screen and (min-width: 500px) {
