@@ -8,7 +8,9 @@
 
     <title>Sleep Outside | Checkout</title>
 
-    <link rel="stylesheet" href="css/style.css" >
+    <link rel="stylesheet" href="../css/style.css" >
+
+    <script src="../js/checkout.js" type="module"></script>
   </head>
 
   <body>
@@ -19,7 +21,61 @@
       <section class="products">
         <h2>Review & Place your Order</h2>
       </section>
-    </main>
+
+      <div class="checkout-layout">
+
+        <form id="checkout-form">
+          <fieldset>
+            <legend>Customer Information</legend>
+            <label>First Name
+              <input id="firstName" type="text" name="fname" required>
+            </label>
+            <label>Last Name
+              <input id="lastName" type="text" name="lname" required>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Address</legend>
+            <label>Street Address
+              <input id="street" type="text" name="street" required>
+            </label>
+            <label>City
+              <input id="city" type="text" name="city" required>
+            </label>
+            <label>State
+              <input id="state" type="text" name="state" required>
+            </label>
+            <label>Zip Code
+              <input id="zip" type="text" name="zip" required pattern="\d{5}" title="Enter a 5-digit zip code">
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Payment Information</legend>
+            <label>Credit Card Number
+              <input id="ccnumber" type="text" name="cardNumber" required pattern="\d{16}" title="Enter a 16-digit credit card number">
+            </label>
+            <label>Expiration Date
+              <input id="expdate" type="month" name="expiration" required>
+            </label>
+            <label>Security Code
+              <input id="cvv" type="text" name="code" required pattern="\d{3}" title="Enter a 3-digit security code">
+            </label>
+          </fieldset>
+
+          <button type="submit">Checkout</button>
+        </form>
+
+        <section class="order-summary">
+          <h2>Order Summary</h2>
+          <p>Subtotal: <span id="subtotal"></span></p>
+          <p>Tax: <span id="tax"></span></p>
+          <p>Shipping: <span id="shipping"></span></p>
+          <p><strong>Total: <span id="order-total"></span></strong></p>
+        </section>
+      </main>
+    </div>
 
     <footer id="main-footer"></footer>
   </body>
