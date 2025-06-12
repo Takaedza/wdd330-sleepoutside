@@ -284,6 +284,16 @@ button {
   cursor: pointer;
 }
 
+.cart-total{
+  text-align: right;
+  padding: 2rem 25% 0 0;
+  font-weight: bold;
+}
+
+.hide{
+  display: none;
+}
+
 .rposition {
   margin-top: 12rem;
   margin-right: 20rem;
