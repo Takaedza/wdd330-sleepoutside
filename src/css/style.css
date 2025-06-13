@@ -427,6 +427,24 @@ button {
   color: #fff;
 }
 
+#imageCarousel {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+}
+
+.thumbnail {
+    width: 60px;
+    cursor: pointer;
+    margin: 5px;
+    border: 1px solid #ccc;
+}
+
+.thumbnail:hover {
+    border-color: #4e4e4ee6;
+}
+
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

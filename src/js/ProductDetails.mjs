@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -18,54 +18,83 @@ export default class ProductDetails {
       .addEventListener("click", this.addProductToCart.bind(this));
   }
 
-  addProductToCart(){
-    const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
-    setLocalStorage("so-cart", cartItems);
-
-    alertMessage(`${this.product.Name} was added to your cart!`);
+  addProductToCart() {
+    const cart = getLocalStorage("so-cart") || [];
+    cart.push(this.product);
+    setLocalStorage("so-cart", cart);
   }
 
   renderProductDetails() {
+    // Render the product details using the template function
     productDetailTemplate(this.product);
   }
 }
 
 function productDetailTemplate(product) {
-  document.getElementById("category").textContent = product.Category.charAt(0).toUpperCase() + product.Category.slice(1);
+  // Update product title and brand
+  document.querySelector("h3").textContent = product.Brand.Name;
+  document.querySelector("h2").textContent = product.NameWithoutBrand;
 
-  document.getElementById("productBrand").textContent = product.Brand.Name;
-  document.getElementById("productName").textContent = product.NameWithoutBrand;
-
-  const productImage = document.getElementById("productImage");
-  productImage.src = product.Images.PrimaryLarge;
-  productImage.alt = product.NameWithoutBrand;
-
-  const euroPrice = new Intl.NumberFormat("de-DE", {
-    style: "currency", currency: "EUR",
-  }).format(Number(product.FinalPrice) * 0.85);
+  // Check if the product has ExtraImages
+  if (product.ExtraImages && product.ExtraImages.length > 0) {
+    renderImageCarousel(product);
+  } else {
+    renderSingleImage(product);
+  }
 
   document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
   document.getElementById("productColor").textContent = product.Colors[0].ColorName;
   document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
-  
   document.getElementById("addToCart").dataset.id = product.Id;
 
   // Calculate discount
   const hasDiscount = product.FinalPrice < product.SuggestedRetailPrice;
   const discount = hasDiscount
-    ? (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2)
-    : null;
+      ? (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2)
+      : null;
 
   // Add discount information if applicable
   if (hasDiscount) {
-    const discountText = `$${discount} OFF`;
-    const discountElement = document.createElement("p");
-    discountElement.className = "product-card__discount rposition";
-    discountElement.textContent = discountText;
-
-  // Append the discount element to the product detail section
-    const productDetailSection = document.querySelector(".product-detail");
-    productDetailSection.appendChild(discountElement);
+      const discountText = `$${discount} OFF`;
+      const discountElement = document.createElement("p");
+      discountElement.className = "product-card__discount rposition";
+      discountElement.textContent = discountText;
+      const productDetailSection = document.querySelector(".product-detail");
+      productDetailSection.appendChild(discountElement);
   }
+}
+
+function renderImageCarousel(product) {
+  const carouselContainer = document.getElementById("imageCarousel");
+  carouselContainer.innerHTML = ""; // Clear previous content
+
+  // Create the main image element
+  const mainImage = document.createElement("img");
+  mainImage.id = "productImage";
+  mainImage.src = product.ExtraImages[0].Url; // Set to the first extra image
+  mainImage.alt = product.NameWithoutBrand;
+  carouselContainer.appendChild(mainImage);
+
+  // Create thumbnail images
+  const thumbnailsContainer = document.createElement("div");
+  thumbnailsContainer.className = "thumbnails";
+
+  product.ExtraImages.forEach((image, index) => {
+      const thumbnail = document.createElement("img");
+      thumbnail.src = image.Url;
+      thumbnail.alt = `${product.NameWithoutBrand} Image ${index + 1}`;
+      thumbnail.className = "thumbnail";
+      thumbnail.addEventListener("click", () => {
+          mainImage.src = image.Url; // Change main image on thumbnail click
+      });
+      thumbnailsContainer.appendChild(thumbnail);
+  });
+
+  carouselContainer.appendChild(thumbnailsContainer);
+}
+
+function renderSingleImage(product) {
+  const productImage = document.getElementById("productImage");
+  productImage.src = product.Image;
+  productImage.alt = product.NameWithoutBrand;
 }
