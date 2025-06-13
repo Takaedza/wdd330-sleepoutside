@@ -430,18 +430,26 @@ button {
 #imageCarousel {
     position: relative;
     width: 100%;
-    max-width: 600px;
+    max-width: 600px; /* Adjust as needed */
+}
+
+.thumbnails-container {
+    display: flex; /* Use flexbox for horizontal layout */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    padding: 10px 0; /* Space around the thumbnails */
 }
 
 .thumbnail {
-    width: 60px;
+    width: 60px; /* Thumbnail size */
+    height: auto; /* Maintain aspect ratio */
     cursor: pointer;
-    margin: 5px;
-    border: 1px solid #ccc;
+    margin: 0 5px; /* Spacing between thumbnails */
+    border: 1px solid #ccc; /* Optional border */
+    transition: border-color 0.3s; /* Smooth border color change */
 }
 
 .thumbnail:hover {
-    border-color: #4e4e4ee6;
+    border-color: #007bff; /* Highlight on hover */
 }
 
 @media screen and (min-width: 500px) {
