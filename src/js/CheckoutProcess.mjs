@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, alertMessage } from "./utils.mjs";
 
 export default class CheckoutProcess {
   constructor(key, outputSelector) {
@@ -81,13 +81,20 @@ export default class CheckoutProcess {
     console.log("Order to submit:", order);
 
     try {
-        const response = await service.checkout(order);
-        console.log("Order successfully submitted:", response);
+      const response = await service.checkout(order);
+      console.log("✅ Order successfully submitted:", response);
+      localStorage.removeItem(this.key);
+      window.location.href = "/checkout/success.html";
     } catch (error) {
-        console.error("Failed to submit order:", error);
+      console.error("❌ Failed to submit order:", error);
+      let message = "An unexpected error occurred. Please try again.";
+      
+      if (error?.name === "servicesError" && error?.message?.message) {
+        message = error.message.message;
+      }
+      alertMessage(message);
     }
   }
-
 
   formDataToJSON(formElement) {
     const formData = new FormData(formElement),
