@@ -36,9 +36,6 @@ function productDetailTemplate(product) {
   document.querySelector("h2").textContent = product.NameWithoutBrand;
 
   // Check if the product has ExtraImages
-  const carouselContainer = document.getElementById("imageCarousel");
-  carouselContainer.innerHTML = ""; // Clear previous content
-
   if (product.Images.ExtraImages && product.Images.ExtraImages.length > 0) {
     renderImageCarousel(product);
   } else {
@@ -69,25 +66,37 @@ function productDetailTemplate(product) {
 
 function renderImageCarousel(product) {
   const carouselContainer = document.getElementById("imageCarousel");
+  carouselContainer.innerHTML = ""; // Clear previous content
 
-  // Create the main image element
+  // Create the main image element using the PrimaryLarge image
   const mainImage = document.createElement("img");
   mainImage.id = "productImage";
-  mainImage.src = product.Images.ExtraImages[0].src;
-  mainImage.alt = product.Images.ExtraImages[0].title;
+  mainImage.src = product.Images.PrimaryLarge; // Set to the primary large image
+  mainImage.alt = product.NameWithoutBrand;
   carouselContainer.appendChild(mainImage);
 
   // Create thumbnail images
   const thumbnailsContainer = document.createElement("div");
   thumbnailsContainer.className = "thumbnails";
 
-  product.ExtraImages.forEach((image, index) => {
+  // Add primary image as the first thumbnail
+  const primaryThumbnail = document.createElement("img");
+  primaryThumbnail.src = product.Images.PrimarySmall; // Use PrimarySmall for thumbnail
+  primaryThumbnail.alt = `${product.NameWithoutBrand} Primary Image`;
+  primaryThumbnail.className = "thumbnail";
+  primaryThumbnail.addEventListener("click", () => {
+      mainImage.src = product.Images.PrimaryLarge; // Change main image to primary large on click
+  });
+  thumbnailsContainer.appendChild(primaryThumbnail);
+
+  // Add extra images as thumbnails
+  product.Images.ExtraImages.forEach((image, index) => {
       const thumbnail = document.createElement("img");
-      thumbnail.src = image.ExtraImages.src;
-      thumbnail.alt = image.ExtraImages.title;
+      thumbnail.src = image.Src; // Use the Src from ExtraImages
+      thumbnail.alt = `${product.NameWithoutBrand} ${image.Title} ${index + 1}`;
       thumbnail.className = "thumbnail";
       thumbnail.addEventListener("click", () => {
-          mainImage.src = image.ExtraImages.src;
+          mainImage.src = image.Src; // Change main image on thumbnail click
       });
       thumbnailsContainer.appendChild(thumbnail);
   });
@@ -97,13 +106,11 @@ function renderImageCarousel(product) {
 
 function renderSingleImage(product) {
   const carouselContainer = document.getElementById("imageCarousel");
-
-  // Clear any existing content
-  carouselContainer.innerHTML = "";
+  carouselContainer.innerHTML = ""; // Clear previous content
 
   const productImage = document.createElement("img");
   productImage.id = "productImage";
-  productImage.src = product.Images.PrimaryExtraLarge;
+  productImage.src = product.Images.PrimaryLarge; // Use PrimaryLarge for single image
   productImage.alt = product.NameWithoutBrand;
   carouselContainer.appendChild(productImage);
 }
