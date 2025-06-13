@@ -18,13 +18,19 @@
     </header>
 
     <main class="divider">
-      <h2 id="category">Category</h2> 
+      <h2 id="category">Category</h2>
       <section class="product-detail">
         <h3 id="productBrand">Brand</h3>
 
         <h2 id="productName" class="divider">Product Name</h2>
-
-        <img id="productImage" class="divider" src="" alt="" >
+       <div id="imageCarousel">
+            <img id="productImage" src="" alt="Product Image" />
+        </div>
+        <div class="thumbnails-container">
+            <div class="thumbnails-wrapper">
+                <!-- Thumbnails will be rendered here -->
+            </div>
+        </div>
 
         <p id="productPrice" class="product-card__price">Price</p>
 
@@ -39,5 +45,15 @@
     </main>
 
     <footer id="main-footer"></footer>
+       <script>
+        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+            thumbnail.addEventListener('click', () => {
+                const thumbnailsContainer = document.querySelector('.thumbnails-container');
+                const thumbnailWidth = thumbnail.clientWidth + 10; // Include margin
+                const index = Array.from(thumbnailsContainer.children).indexOf(thumbnail);
+                thumbnailsContainer.scrollLeft = index * thumbnailWidth; // Scroll to the clicked thumbnail
+            });
+        });
+    </script>
   </body>
 </html>
