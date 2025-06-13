@@ -375,8 +375,21 @@ button {
   background-color: #ffebda;
 }
 
-/* nav */
+.checkout-summary{
+  grid-row: 4/5;
+}
 
+.alert-message {
+  background-color: #ffebda;
+  border-left: 4px solid var(--primary-color);
+  color: var(--tertiary-color);
+  padding: 1em;
+  margin: 1em 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* nav */
 .nav-search-form {
   display: flex;
   align-items: center;
@@ -413,7 +426,6 @@ button {
   background: var(--primary-color);
   color: #fff;
 }
-
 
 @media screen and (min-width: 500px) {
   body {
