@@ -431,12 +431,17 @@ button {
     position: relative;
     width: 100%;
     max-width: 600px; /* Adjust as needed */
+    overflow: hidden; /* Hide overflow to create sliding effect */
 }
 
 .thumbnails-container {
-    display: flex; /* Use flexbox for horizontal layout */
-    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: nowrap; /* Prevent thumbnails from wrapping */
     padding: 10px 0; /* Space around the thumbnails */
+}
+
+.thumbnails-wrapper {
+    display: inline-flex; /* Use inline-flex to arrange thumbnails horizontally */
 }
 
 .thumbnail {

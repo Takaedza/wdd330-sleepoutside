@@ -45,5 +45,15 @@
     </main>
 
     <footer id="main-footer"></footer>
+       <script>
+        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+            thumbnail.addEventListener('click', () => {
+                const thumbnailsContainer = document.querySelector('.thumbnails-container');
+                const thumbnailWidth = thumbnail.clientWidth + 10; // Include margin
+                const index = Array.from(thumbnailsContainer.children).indexOf(thumbnail);
+                thumbnailsContainer.scrollLeft = index * thumbnailWidth; // Scroll to the clicked thumbnail
+            });
+        });
+    </script>
   </body>
 </html>
