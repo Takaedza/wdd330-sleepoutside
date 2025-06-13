@@ -15,7 +15,7 @@ export default class ProductDetails {
 
     document
       .getElementById("addToCart")
-      .addEventListener("click", this.addProductToCart.bind(this));
+      .addEventListener("click", this.addToCart.bind(this));
   }
 
   addProductToCart() {
@@ -25,91 +25,41 @@ export default class ProductDetails {
   }
 
   renderProductDetails() {
-    // Render the product details using the template function
     productDetailTemplate(this.product);
+    // eslint-disable-next-line no-console
+    console.log("a", this.product)
   }
 }
 
 function productDetailTemplate(product) {
-  // Update product title and brand
-  document.querySelector("h3").textContent = product.Brand.Name;
-  document.querySelector("h2").textContent = product.NameWithoutBrand;
+    document.querySelector("h3").textContent = product.Brand.Name;
+    document.querySelector("h2").textContent = product.NameWithoutBrand;
 
-  // Check if the product has ExtraImages
-  const carouselContainer = document.getElementById("imageCarousel");
-  carouselContainer.innerHTML = ""; // Clear previous content
+    const productImage = document.getElementById("productImage");
+    productImage.src = product.Image;
+    productImage.alt = product.NameWithoutBrand;
 
-  if (product.Image && product.Image.length > 0) {
-    // eslint-disable-next-line no-console
-    console.log("a", product.Image)
-     // eslint-disable-next-line no-console
-     console.log("b", product.image)
-      // eslint-disable-next-line no-console
-      console.log("a", product)
-    renderImageCarousel(product);
-  } else {
-    renderSingleImage(product);
-  }
+    document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
+    document.getElementById("productColor").textContent = product.Colors[0].ColorName;
+    document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
 
-  document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
-  document.getElementById("productColor").textContent = product.Colors[0].ColorName;
-  document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
-  document.getElementById("addToCart").dataset.id = product.Id;
+    document.getElementById("addToCart").dataset.id = product.Id;
 
-  // Calculate discount
-  const hasDiscount = product.FinalPrice < product.SuggestedRetailPrice;
-  const discount = hasDiscount
-      ? (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2)
-      : null;
+    // Calculate discount
+    const hasDiscount = product.FinalPrice < product.SuggestedRetailPrice;
+    const discount = hasDiscount
+        ? (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2)
+        : null;
 
-  // Add discount information if applicable
-  if (hasDiscount) {
-      const discountText = `$${discount} OFF`;
-      const discountElement = document.createElement("p");
-      discountElement.className = "product-card__discount rposition";
-      discountElement.textContent = discountText;
-      const productDetailSection = document.querySelector(".product-detail");
-      productDetailSection.appendChild(discountElement);
-  }
-}
+    // Add discount information if applicable
+    if (hasDiscount) {
+        const discountText = `$${discount} OFF`;
+        const discountElement = document.createElement("p");
+        discountElement.className = "product-card__discount rposition";
+        discountElement.textContent = discountText;
 
-function renderImageCarousel(product) {
-  const carouselContainer = document.getElementById("imageCarousel");
-
-  // Create the main image element
-  const mainImage = document.createElement("img");
-  mainImage.id = "productImage";
-  mainImage.src = product.ExtraImages[0].Url; // Set to the first extra image
-  mainImage.alt = product.NameWithoutBrand;
-  carouselContainer.appendChild(mainImage);
-
-  // Create thumbnail images
-  const thumbnailsContainer = document.createElement("div");
-  thumbnailsContainer.className = "thumbnails";
-
-  product.ExtraImages.forEach((image, index) => {
-      const thumbnail = document.createElement("img");
-      thumbnail.src = image.Url;
-      thumbnail.alt = `${product.NameWithoutBrand} Image ${index + 1}`;
-      thumbnail.className = "thumbnail";
-      thumbnail.addEventListener("click", () => {
-          mainImage.src = image.Url; // Change main image on thumbnail click
-      });
-      thumbnailsContainer.appendChild(thumbnail);
-  });
-
-  carouselContainer.appendChild(thumbnailsContainer);
-}
-
-function renderSingleImage(product) {
-  const carouselContainer = document.getElementById("imageCarousel");
-
-  // Clear any existing content
-  carouselContainer.innerHTML = "";
-
-  const productImage = document.createElement("img");
-  productImage.id = "productImage";
-  productImage.src = product.Image;
-  productImage.alt = product.NameWithoutBrand;
-  carouselContainer.appendChild(productImage);
+        // Append the discount element to the product detail section
+        const productDetailSection = document.querySelector(".product-detail");
+        productDetailSection.appendChild(discountElement);
+    }
 }
