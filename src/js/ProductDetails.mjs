@@ -39,7 +39,7 @@ function productDetailTemplate(product) {
   const carouselContainer = document.getElementById("imageCarousel");
   carouselContainer.innerHTML = ""; // Clear previous content
 
-  if (product.image && product.image.length > 0) {
+  if (product.Image && product.Image.length > 0) {
     renderImageCarousel(product);
   } else {
     renderSingleImage(product);
