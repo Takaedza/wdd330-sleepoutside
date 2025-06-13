@@ -36,7 +36,10 @@ function productDetailTemplate(product) {
   document.querySelector("h2").textContent = product.NameWithoutBrand;
 
   // Check if the product has ExtraImages
-  if (product.ExtraImages && product.ExtraImages.length > 0) {
+  const carouselContainer = document.getElementById("imageCarousel");
+  carouselContainer.innerHTML = ""; // Clear previous content
+
+  if (product.image && product.image.length > 0) {
     renderImageCarousel(product);
   } else {
     renderSingleImage(product);
@@ -66,7 +69,6 @@ function productDetailTemplate(product) {
 
 function renderImageCarousel(product) {
   const carouselContainer = document.getElementById("imageCarousel");
-  carouselContainer.innerHTML = ""; // Clear previous content
 
   // Create the main image element
   const mainImage = document.createElement("img");
@@ -94,7 +96,14 @@ function renderImageCarousel(product) {
 }
 
 function renderSingleImage(product) {
-  const productImage = document.getElementById("productImage");
+  const carouselContainer = document.getElementById("imageCarousel");
+
+  // Clear any existing content
+  carouselContainer.innerHTML = "";
+
+  const productImage = document.createElement("img");
+  productImage.id = "productImage";
   productImage.src = product.Image;
   productImage.alt = product.NameWithoutBrand;
+  carouselContainer.appendChild(productImage);
 }
