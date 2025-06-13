@@ -40,6 +40,12 @@ function productDetailTemplate(product) {
   carouselContainer.innerHTML = ""; // Clear previous content
 
   if (product.Image && product.Image.length > 0) {
+    // eslint-disable-next-line no-console
+    console.log("a", product.Image)
+     // eslint-disable-next-line no-console
+     console.log("b", product.image)
+      // eslint-disable-next-line no-console
+      console.log("a", product)
     renderImageCarousel(product);
   } else {
     renderSingleImage(product);
