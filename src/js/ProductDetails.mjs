@@ -76,8 +76,8 @@ function renderImageCarousel(product) {
   carouselContainer.appendChild(mainImage);
 
   // Create thumbnail images
-  const thumbnailsContainer = document.createElement("div");
-  thumbnailsContainer.className = "thumbnails";
+  const thumbnailsWrapper = document.querySelector(".thumbnails-wrapper");
+  thumbnailsWrapper.innerHTML = ""; // Clear previous thumbnails
 
   // Add primary image as the first thumbnail
   const primaryThumbnail = document.createElement("img");
@@ -87,7 +87,7 @@ function renderImageCarousel(product) {
   primaryThumbnail.addEventListener("click", () => {
       mainImage.src = product.Images.PrimaryLarge; // Change main image to primary large on click
   });
-  thumbnailsContainer.appendChild(primaryThumbnail);
+  thumbnailsWrapper.appendChild(primaryThumbnail);
 
   // Add extra images as thumbnails
   product.Images.ExtraImages.forEach((image, index) => {
@@ -98,10 +98,8 @@ function renderImageCarousel(product) {
       thumbnail.addEventListener("click", () => {
           mainImage.src = image.Src; // Change main image on thumbnail click
       });
-      thumbnailsContainer.appendChild(thumbnail);
+      thumbnailsWrapper.appendChild(thumbnail);
   });
-
-  carouselContainer.appendChild(thumbnailsContainer);
 }
 
 function renderSingleImage(product) {
