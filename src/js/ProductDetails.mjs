@@ -18,12 +18,13 @@ export default class ProductDetails {
       .addEventListener("click", this.addProductToCart.bind(this));
   }
 
-  addProductToCart() {
-    const cart = getLocalStorage("so-cart") || [];
-    const productToAdd = { ...this.product, selectedColor: this.product.selectedColor };
-    cart.push(productToAdd);
-    setLocalStorage("so-cart", cart);
-  }
+ addProductToCart() {
+  const cart = getLocalStorage("so-cart") || [];
+  const productToAdd = { ...this.product, selectedColor: this.product.selectedColor };
+  cart.push(productToAdd);
+  setLocalStorage("so-cart", cart);
+}
+
 
   renderProductDetails() {
     // Render the product details using the template function
@@ -46,16 +47,15 @@ function productDetailTemplate(product) {
   document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
   document.getElementById("productColor").textContent = product.Colors[0].ColorName;
   document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
-  // Render color swatches if more than one color
+
+
 const swatchContainer = document.getElementById("colorSwatches");
-// eslint-disable-next-line no-console
-console.log("gh", product)
 swatchContainer.innerHTML = ""; // Clear previous swatches
 
 if (product.Colors && product.Colors.length > 1) {
   product.Colors.forEach((color, idx) => {
     const swatch = document.createElement("img");
-    swatch.src = color.SwatchImageUrl; // Assuming this is the swatch image URL
+    swatch.src = color.ColorChipImageSrc; // Use the color chip image for the swatch
     swatch.alt = color.ColorName;
     swatch.title = color.ColorName;
     swatch.className = "color-swatch";
@@ -74,8 +74,11 @@ if (product.Colors && product.Colors.length > 1) {
       // Update displayed color name
       document.getElementById("productColor").textContent = color.ColorName;
 
-      // Optionally, update main image if images are color-specific
-      // mainImage.src = color.ImageUrl; // Uncomment if you have color-specific images
+      // Optionally, update main image if preview is color-specific
+      if (color.ColorPreviewImageSrc) {
+        const mainImage = document.getElementById("productImage");
+        if (mainImage) mainImage.src = color.ColorPreviewImageSrc;
+      }
 
       // Store selected color in product object for cart
       product.selectedColor = color;

@@ -465,6 +465,7 @@ button {
   margin: 0 4px;
   cursor: pointer;
   transition: border 0.2s;
+  object-fit: cover;
 }
 .color-swatch.selected {
   border: 2px solid #007bff;
