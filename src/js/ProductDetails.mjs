@@ -48,6 +48,8 @@ function productDetailTemplate(product) {
   document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
   // Render color swatches if more than one color
 const swatchContainer = document.getElementById("colorSwatches");
+// eslint-disable-next-line no-console
+console.log("gh", product)
 swatchContainer.innerHTML = ""; // Clear previous swatches
 
 if (product.Colors && product.Colors.length > 1) {
