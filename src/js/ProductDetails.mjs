@@ -20,7 +20,8 @@ export default class ProductDetails {
 
   addProductToCart() {
     const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
+    const productToAdd = { ...this.product, selectedColor: this.product.selectedColor };
+    cart.push(productToAdd);
     setLocalStorage("so-cart", cart);
   }
 
@@ -45,6 +46,49 @@ function productDetailTemplate(product) {
   document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
   document.getElementById("productColor").textContent = product.Colors[0].ColorName;
   document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
+  // Render color swatches if more than one color
+const swatchContainer = document.getElementById("colorSwatches");
+swatchContainer.innerHTML = ""; // Clear previous swatches
+
+if (product.Colors && product.Colors.length > 1) {
+  product.Colors.forEach((color, idx) => {
+    const swatch = document.createElement("img");
+    swatch.src = color.SwatchImageUrl; // Assuming this is the swatch image URL
+    swatch.alt = color.ColorName;
+    swatch.title = color.ColorName;
+    swatch.className = "color-swatch";
+    swatch.dataset.index = idx;
+
+    // Highlight the first color by default
+    if (idx === 0) swatch.classList.add("selected");
+
+    // Click handler for selecting a color
+    swatch.addEventListener("click", function() {
+      // Remove 'selected' class from all swatches
+      document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+      // Add 'selected' to clicked swatch
+      this.classList.add("selected");
+
+      // Update displayed color name
+      document.getElementById("productColor").textContent = color.ColorName;
+
+      // Optionally, update main image if images are color-specific
+      // mainImage.src = color.ImageUrl; // Uncomment if you have color-specific images
+
+      // Store selected color in product object for cart
+      product.selectedColor = color;
+    });
+
+    swatchContainer.appendChild(swatch);
+  });
+
+  // Set the default selected color
+  product.selectedColor = product.Colors[0];
+} else if (product.Colors && product.Colors.length === 1) {
+  // Only one color, set as selected
+  product.selectedColor = product.Colors[0];
+}
+
   document.getElementById("addToCart").dataset.id = product.Id;
 
   // Calculate discount
