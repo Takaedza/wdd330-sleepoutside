@@ -18,11 +18,13 @@ export default class ProductDetails {
       .addEventListener("click", this.addProductToCart.bind(this));
   }
 
-  addProductToCart() {
-    const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
-    setLocalStorage("so-cart", cart);
-  }
+ addProductToCart() {
+  const cart = getLocalStorage("so-cart") || [];
+  const productToAdd = { ...this.product, selectedColor: this.product.selectedColor };
+  cart.push(productToAdd);
+  setLocalStorage("so-cart", cart);
+}
+
 
   renderProductDetails() {
     // Render the product details using the template function
@@ -45,6 +47,53 @@ function productDetailTemplate(product) {
   document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
   document.getElementById("productColor").textContent = product.Colors[0].ColorName;
   document.getElementById("productDescription").innerHTML = product.DescriptionHtmlSimple;
+
+
+const swatchContainer = document.getElementById("colorSwatches");
+swatchContainer.innerHTML = ""; // Clear previous swatches
+
+if (product.Colors && product.Colors.length > 1) {
+  product.Colors.forEach((color, idx) => {
+    const swatch = document.createElement("img");
+    swatch.src = color.ColorChipImageSrc; // Use the color chip image for the swatch
+    swatch.alt = color.ColorName;
+    swatch.title = color.ColorName;
+    swatch.className = "color-swatch";
+    swatch.dataset.index = idx;
+
+    // Highlight the first color by default
+    if (idx === 0) swatch.classList.add("selected");
+
+    // Click handler for selecting a color
+    swatch.addEventListener("click", function() {
+      // Remove 'selected' class from all swatches
+      document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+      // Add 'selected' to clicked swatch
+      this.classList.add("selected");
+
+      // Update displayed color name
+      document.getElementById("productColor").textContent = color.ColorName;
+
+      // Optionally, update main image if preview is color-specific
+      if (color.ColorPreviewImageSrc) {
+        const mainImage = document.getElementById("productImage");
+        if (mainImage) mainImage.src = color.ColorPreviewImageSrc;
+      }
+
+      // Store selected color in product object for cart
+      product.selectedColor = color;
+    });
+
+    swatchContainer.appendChild(swatch);
+  });
+
+  // Set the default selected color
+  product.selectedColor = product.Colors[0];
+} else if (product.Colors && product.Colors.length === 1) {
+  // Only one color, set as selected
+  product.selectedColor = product.Colors[0];
+}
+
   document.getElementById("addToCart").dataset.id = product.Id;
 
   // Calculate discount
